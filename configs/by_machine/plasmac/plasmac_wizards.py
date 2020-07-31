@@ -159,12 +159,7 @@ class wizards:
         if 'cut-recovery' in commands.lower() and hal.get_value('halui.program.is-paused'):
             msg = Popen('python ./wizards/w_cut_recovery.py',stdout=PIPE,stderr=PIPE, shell=True)
             hal.set_p('plasmac.cut-recovery', '0')
-
-    def on_button_pressed(self, button):
-        bNum = int(button.get_name().split('button')[1])
-        commands = self.iniButtonCode[bNum]
-        if not commands: return
-        if 'change-consumables' in commands.lower():
+        elif 'change-consumables' in commands.lower():
             self.consumable_change_setup()
             if hal.get_value('axis.x.eoffset-counts') or hal.get_value('axis.y.eoffset-counts'):
                 hal.set_p('plasmac.consumable-change', '0')
