@@ -44,6 +44,7 @@ class wizards:
         self.prefFile = self.i.find('EMC', 'MACHINE') + '.pref'
         self.gui = self.i.find('DISPLAY', 'DISPLAY').lower()
         self.configFile = self.i.find('EMC', 'MACHINE').lower() + '_wizards.cfg'
+        self.cutRecovering = False
         self.check_settings()
         self.set_theme()
         self.button_setup()
@@ -152,6 +153,14 @@ class wizards:
                 print('Could not load image for custom user button #{}'.format(button))
 
     def on_button_clicked(self, button):
+        bNum = int(button.get_name().split('button')[1])
+        commands = self.iniButtonCode[bNum]
+        if not commands: return
+        if 'cut-recovery' in commands.lower() and hal.get_value('halui.program.is-paused'):
+            msg = Popen('python ./wizards/w_cut_recovery.py',stdout=PIPE,stderr=PIPE, shell=True)
+            hal.set_p('plasmac.cut-recovery', '0')
+
+    def on_button_pressed(self, button):
         bNum = int(button.get_name().split('button')[1])
         commands = self.iniButtonCode[bNum]
         if not commands: return
@@ -335,7 +344,16 @@ class wizards:
             if 'load' in self.iniButtonCode[n]:
                 pass
             elif 'change-consumables' in self.iniButtonCode[n]:
-                if hal.get_value('halui.program.is-paused') and hal.get_value('plasmac.stop-type-out') > 1:
+                if hal.get_value('halui.program.is-paused') and \
+                   hal.get_value('plasmac.stop-type-out') > 1 and \
+                   not hal.get_value('plasmac.cut-recovering'):
+                    self.builder.get_object('button' + str(n)).set_sensitive(True)
+                else:
+                    self.builder.get_object('button' + str(n)).set_sensitive(False)
+            elif 'cut-recovery' in self.iniButtonCode[n]:
+                if hal.get_value('halui.program.is-paused') and \
+                   hal.get_value('plasmac.motion-type') > 1 and \
+                   not hal.get_value('plasmac.consumable-changing'):
                     self.builder.get_object('button' + str(n)).set_sensitive(True)
                 else:
                     self.builder.get_object('button' + str(n)).set_sensitive(False)
