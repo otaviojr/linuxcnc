@@ -1490,6 +1490,7 @@ FUNCTION(_) {
             }
             break;
         case CUT_RECOVERY_ON:
+            xy_offset_enable = TRUE;
             if(program_is_running){
                 state = IDLE;
             }
@@ -1524,6 +1525,7 @@ FUNCTION(_) {
             }
             break;
         case CUT_RECOVERY_OFF:
+            xy_offset_enable = TRUE;
             if(x_offset_counts + x_velocity < 0){
                 x_offset_counts += x_velocity;
             }else if(x_offset_counts - x_velocity > 0){
