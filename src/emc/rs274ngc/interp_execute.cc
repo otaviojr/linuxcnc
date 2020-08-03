@@ -316,6 +316,7 @@ int Interp::execute_block(block_pointer block,   //!< pointer to a block of RS27
       }
   }
 
+  CHP(convert_m(block, settings));
   CHP(convert_g(block, settings));
 
   /* convert m0, m1, m2, m30, m60, or (when main program loops disabled) m99 */
