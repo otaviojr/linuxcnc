@@ -3379,6 +3379,7 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
 					   block->m_modes[7]);
     } else {
       CONTROLLING_BLOCK(*settings).builtin_used = !remapped_in_block;
+      (_("So far soo good\n")));
       if (block->dollar_flag){
           CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < -1),
               (_("Spindle ($) number out of range in M5 Command\nnum_spindles =%i. $=%d\n")),settings->num_spindles,(int)block->dollar_number);
