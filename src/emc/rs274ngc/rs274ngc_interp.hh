@@ -549,11 +549,11 @@ int read_dollar(char *line, int *counter, block_pointer block,
 
     //int call_fsm(setup_pointer settings, int event);
     //int execute_pycall(setup_pointer settings, const char *name, int call_phase);
- int execute_call(setup_pointer settings, context_pointer current_frame, int call_type);  
- int execute_return(setup_pointer settings,  context_pointer current_frame, int call_type);  
+ int execute_call(setup_pointer settings, context_pointer current_frame, int call_type);
+ int execute_return(setup_pointer settings,  context_pointer current_frame, int call_type);
  void loop_to_beginning(setup_pointer settings);
     //int execute_remap(setup_pointer settings, int call_phase);   // remap call state machine
-    int handler_returned( setup_pointer settings, 
+    int handler_returned( setup_pointer settings,
 			  context_pointer active_frame, const char *name, bool osub);
 int read_inputs(setup_pointer settings);
 
@@ -603,6 +603,8 @@ int read_inputs(setup_pointer settings);
      (m == 61) ||					\
      (m == 0) ||					\
      (m == 1) ||					\
+     (m == 3) ||					\
+     (m == 5) ||					\
      (m == 60) ||					\
      (m == 62) ||					\
      (m == 63) ||					\
@@ -626,7 +628,7 @@ int read_inputs(setup_pointer settings);
     ((M_REMAPPABLE((bp)->m_modes[mgroup])) && \
     (((bp)->m_modes[mgroup]) > -1) &&		\
      ((sp)->m_remapped[(bp)->m_modes[mgroup]]))
-    
+
     bool remap_in_progress(const char *code);
     int convert_remapped_code(block_pointer block,
 			       setup_pointer settings,
@@ -664,7 +666,7 @@ int read_inputs(setup_pointer settings);
 
     const char *getSavedError();
     // set error message text without going through printf format interpretation
-    int setSavedError(const char *msg); 
+    int setSavedError(const char *msg);
 
     int unwind_call(int status, const char *file, int line, const char *function);
 
