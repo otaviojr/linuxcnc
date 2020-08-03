@@ -6,7 +6,7 @@
 * Author:
 * License: GPL Version 2
 * System: Linux
-*    
+*
 * Copyright (c) 2004 All rights reserved.
 *
 * Last change:
@@ -130,9 +130,9 @@ Interp::Interp()
     : log_file(stderr),
     _setup{}
 {
-    _setup.init_once = 1;  
+    _setup.init_once = 1;
   init_named_parameters();  // need this before Python init.
- 
+
   if (!PythonPlugin::instantiate(builtin_modules)) {  // factory
     Error("Interp ctor: cant instantiate Python plugin");
     return;
@@ -143,17 +143,17 @@ Interp::Interp()
   try {
     // this import will register the C++->Python converter for Interp
     bp::object interp_module = bp::import("interpreter");
-	
+
     // use a boost::cref to avoid per-call instantiation of the
     // Interp Python wrapper (used for the 'self' parameter in handlers)
     // since interp.init() may be called repeatedly this would create a new
     // wrapper instance on every init(), abandoning the old one and all user attributes
     // tacked onto it, so make sure this is done exactly once
     _setup.pythis = new boost::python::object(boost::cref(*this));
-	
+
     // alias to 'interpreter.this' for the sake of ';py, .... ' comments
     // besides 'this', eventually use proper instance names to handle
-	// several instances 
+	// several instances
     bp::scope(interp_module).attr("this") =  *_setup.pythis;
 
     // make "this" visible without importing interpreter explicitly
@@ -244,8 +244,8 @@ int Interp::close()
     logOword("Interp::close()");
     // be "lazy" only if we're not aborting a call in progress
     // in which case we need to reset() the call stack
-    // this does not reset the filename properly 
-    if(_setup.use_lazy_close) //  && (_setup.call_level == 0)) 
+    // this does not reset the filename properly
+    if(_setup.use_lazy_close) //  && (_setup.call_level == 0))
     {
       _setup.lazy_closing = 1;
       return INTERP_OK;
@@ -260,7 +260,7 @@ int Interp::close()
 
   return INTERP_OK;
 }
- 
+
 
 /***********************************************************************/
 
@@ -298,7 +298,7 @@ int Interp::_execute(const char *command)
     MDImode = 1;
     status = read(command);
     if (status != INTERP_OK) {
-	// if (status > INTERP_MIN_ERROR) 
+	// if (status > INTERP_MIN_ERROR)
 	//     _setup.remap_level = 0;
 	return status;
     }
@@ -308,22 +308,22 @@ int Interp::_execute(const char *command)
 	   command ? "command" : "line",
 	   command ? command : _setup.linetext,
 	    _setup.mdi_interrupt, o_ops[eblock->o_type], eblock->o_name,
-	   _setup.call_level,_setup.remap_level, 
-	   eblock->call_type < 0 ? "*unset*" : call_typenames[eblock->call_type], 
+	   _setup.call_level,_setup.remap_level,
+	   eblock->call_type < 0 ? "*unset*" : call_typenames[eblock->call_type],
 	   call_statenames[_setup.call_state]);
 
   // process control functions -- will skip if skipping
   if ((eblock->o_name != 0) || _setup.mdi_interrupt)  {
       status = convert_control_functions(eblock, &_setup);
       CHP(status); // relinquish control if INTERP_EXCUTE_FINISH, INTERP_ERROR etc
-      
+
       // let MDI code call subroutines.
       // !!!KL not clear what happens if last execution failed while in
       // !!!KL a subroutine
 
       // NOTE: the last executed file will still be open, because "close"
       // is really a lazy close.
-    
+
       // we had an INTERP_OK, so no need to set up another call to finish after sync()
       if (_setup.mdi_interrupt) {
 	  _setup.mdi_interrupt = false;
@@ -430,7 +430,7 @@ int Interp::_execute(const char *command)
 	  // this also sets cblock->executing_remap
 	  status = execute_block(cblock, &_setup);
 #if 0
-	  // this is too naive a test and needs improving (aka: not segfault). 
+	  // this is too naive a test and needs improving (aka: not segfault).
 	  // It needs to kick in only for  new codes, not remapped ones, for which
 	  // recursion just means 'use builtin semantics'
 	  // add some kind of 'is_remapped_builtin()' macro or test method
@@ -462,7 +462,7 @@ int Interp::_execute(const char *command)
 		  // need to trigger execution of parsed _setup.block1 here
 		  // replicate MDI oword execution code here
 		  if ((eblock->o_name != 0) ||
-		      (_setup.mdi_interrupt)) { 
+		      (_setup.mdi_interrupt)) {
 
 		      status = convert_control_functions(eblock, &_setup);
 		      CHP(status);
@@ -474,7 +474,7 @@ int Interp::_execute(const char *command)
 		      while(MDImode && _setup.call_level) { // we are still in a subroutine
 			  CHP(read(0));  // reads from current file and calls parse
 			  status = execute();  // special handling for mdi errors
-			  if (status == INTERP_EXECUTE_FINISH) 
+			  if (status == INTERP_EXECUTE_FINISH)
 			      _setup.mdi_interrupt = true;
 			  CHP(status);
 		      }
@@ -649,69 +649,76 @@ int Interp::remap_finished(int phase)
 int Interp::find_remappings(block_pointer block, setup_pointer settings)
 {
     if (block->f_flag && remapping("F")) {
-	if (remap_in_progress("F"))
-	    CONTROLLING_BLOCK(*settings).builtin_used = true;
-	else
-	    block->remappings.insert(STEP_SET_FEED_RATE);
+    	if (remap_in_progress("F"))
+    	    CONTROLLING_BLOCK(*settings).builtin_used = true;
+    	else
+    	    block->remappings.insert(STEP_SET_FEED_RATE);
     }
     if (block->s_flag && remapping("S")) {
-	if (remap_in_progress("S"))
-	    CONTROLLING_BLOCK(*settings).builtin_used = true;
-	else
-	    block->remappings.insert(STEP_SET_SPINDLE_SPEED);
+    	if (remap_in_progress("S"))
+    	    CONTROLLING_BLOCK(*settings).builtin_used = true;
+    	else
+    	    block->remappings.insert(STEP_SET_SPINDLE_SPEED);
     }
     if (block->t_flag && remapping("T")) {
-	if (remap_in_progress("T"))
-	    CONTROLLING_BLOCK(*settings).builtin_used = true;
-	else
-	    block->remappings.insert(STEP_PREPARE);
+    	if (remap_in_progress("T"))
+    	    CONTROLLING_BLOCK(*settings).builtin_used = true;
+    	else
+    	    block->remappings.insert(STEP_PREPARE);
     }
+
     // User defined M-Codes in group 5
     if (IS_USER_MCODE(block,settings,5) &&
-	!(((block->m_modes[5] == 62) && remap_in_progress("M62")) ||
-	  ((block->m_modes[5] == 63) && remap_in_progress("M63")) ||
-	  ((block->m_modes[5] == 64) && remap_in_progress("M64")) ||
-	  ((block->m_modes[5] == 65) && remap_in_progress("M65")) ||
-	  ((block->m_modes[5] == 66) && remap_in_progress("M66")) ||
-	  ((block->m_modes[5] == 67) && remap_in_progress("M67")) ||
-	  ((block->m_modes[5] == 68) && remap_in_progress("M68"))))
-	// non-recursive behavior
-	block->remappings.insert(STEP_M_5);
+	   !(((block->m_modes[5] == 62) && remap_in_progress("M62")) ||
+	    ((block->m_modes[5] == 63) && remap_in_progress("M63")) ||
+	    ((block->m_modes[5] == 64) && remap_in_progress("M64")) ||
+	    ((block->m_modes[5] == 65) && remap_in_progress("M65")) ||
+	    ((block->m_modes[5] == 66) && remap_in_progress("M66")) ||
+	    ((block->m_modes[5] == 67) && remap_in_progress("M67")) ||
+	    ((block->m_modes[5] == 68) && remap_in_progress("M68"))))
+      	// non-recursive behavior
+      	block->remappings.insert(STEP_M_5);
 
     // User defined M-Codes in group 6 (including M6, M61)
     // call the remap procedure if it the code in that group is remapped unless:
     // it's an M6 or M61 and a remap is in progress
     // (recursion case)
-    if (IS_USER_MCODE(block,settings,6) &&  
-	!(((block->m_modes[6] == 6) && remap_in_progress("M6")) ||
-	  ((block->m_modes[6] == 61) && remap_in_progress("M61")))) {  
-	block->remappings.insert(STEP_M_6); // then call the remap procedure
-    } // else we get the builtin behaviour
-    
+    if (IS_USER_MCODE(block,settings,6) &&
+	   !(((block->m_modes[6] == 6) && remap_in_progress("M6")) ||
+	    ((block->m_modes[6] == 61) && remap_in_progress("M61")))) {
+	       block->remappings.insert(STEP_M_6); // then call the remap procedure
+      } // else we get the builtin behaviour
+
     // User defined M-Codes in group 7
-    if (IS_USER_MCODE(block,settings,7))
-	block->remappings.insert(STEP_M_7);
+    if (IS_USER_MCODE(block,settings,7)){
+      if (remap_in_progress("M3") ||
+          remap_in_progress("M5")) {
+            CONTROLLING_BLOCK(*settings).builtin_used = true;
+          } else {
+            block->remappings.insert(STEP_M_7);
+          }
+    }
 
     // User defined M-Codes in group 8
     if (IS_USER_MCODE(block,settings,8))
-	block->remappings.insert(STEP_M_8);
+	   block->remappings.insert(STEP_M_8);
 
     // User defined M-Codes in group 9
     if (IS_USER_MCODE(block,settings,9))
-	block->remappings.insert(STEP_M_9);
+	   block->remappings.insert(STEP_M_9);
 
     // User defined M-Codes in group 10
     if (IS_USER_MCODE(block,settings,10))
-	block->remappings.insert(STEP_M_10);
+	   block->remappings.insert(STEP_M_10);
 
     // User-defined motion codes (G0 to G3, G33, G73, G76, G80 to G89)
     // as modified (possibly) by G53.
     int mode = block->g_modes[GM_MOTION];
     if ((mode != -1) && IS_USER_GCODE(mode))
-	block->remappings.insert(STEP_MOTION);
-    
+	    block->remappings.insert(STEP_MOTION);
+
     // this makes it possible to call remapped codes like cycles:
-    // G84.2 x1 y2 
+    // G84.2 x1 y2
     // x3
     // will execute 'G84.2 x1 y2', then 'G84.2 x3 y2'
     // provided the remap function explicitly sets motion_mode like so:
@@ -723,23 +730,21 @@ int Interp::find_remappings(block_pointer block, setup_pointer settings)
 
     mode = block->motion_to_be;
     if ((mode != -1) && IS_USER_GCODE(mode)) {
-	block->remappings.insert(STEP_MOTION);
+	     block->remappings.insert(STEP_MOTION);
     }
 
     // User defined M-Codes in group 4 (stopping)
     if (IS_USER_MCODE(block,settings,4)) {
-
-	if (remap_in_progress("M0") ||
-	    remap_in_progress("M1") ||
-	    remap_in_progress("M60"))  { // detect recursion case
-
-	    // these require real work.
-	    // remap_in_progress("M2") ||
-	    // remap_in_progress("M60")
-	    CONTROLLING_BLOCK(*settings).builtin_used = true;
-	} else {
-	    block->remappings.insert(STEP_MGROUP4);
-	}
+    	if (remap_in_progress("M0") ||
+    	    remap_in_progress("M1") ||
+    	    remap_in_progress("M60"))  { // detect recursion case
+    	    // these require real work.
+    	    // remap_in_progress("M2") ||
+    	    // remap_in_progress("M60")
+    	    CONTROLLING_BLOCK(*settings).builtin_used = true;
+    	} else {
+    	    block->remappings.insert(STEP_MGROUP4);
+    	}
     }
     return block->remappings.size();
 }
@@ -1021,7 +1026,7 @@ int Interp::init()
 		  Error("Python plugin configure() failed, status = %d", status);
 	      }
 	  }
- 
+
 	  int n = 1;
 	  int lineno = -1;
 	  _setup.g_remapped.clear();
@@ -1293,7 +1298,7 @@ int Interp::init()
       }
   }
   _setup.init_once = 0;
-  
+
   return INTERP_OK;
 }
 
@@ -1518,7 +1523,7 @@ int Interp::_read(const char *command)  //!< may be NULL or a string to read
   int read_status;
 
   // this input reading code is in the wrong place. It should be executed
-  // in sync(), not here. This would make correct parameter values available 
+  // in sync(), not here. This would make correct parameter values available
   // without doing a read() (e.g. from Python).
   // Unfortunately synch() isnt called in preview (gcodemodule)
 
@@ -1560,37 +1565,37 @@ int Interp::_read(const char *command)  //!< may be NULL or a string to read
   // times in a row until it finally returns INTERP_OK, the reason being that all Python
   // procedures might 'yield INTERP_EXECUTE_FINISH' or execute a queue buster an arbitrary number
   // of times. So they need to be called again post-sync and post-read-input possibly several times.
-  // 
+  //
   // the task readahead logic assumes a block execution may result in a single INTERP_EXECUTE_FINISH
   // and readahead is started therafter immediately. Modifying the readahead logic would be a massive
   // change. Therefore we use the trick to suppress reading the next block as required, which means
   // we will get several calls to execute() in a row which are used to finish the handlers. This is
   // needed for remapped codes which might involve up to three Python handlers, and Python oword subs.
   // Note this is not an issue for NGC oword procedures. The call/return logic will set _setup.call_state to
-  // CS_REEXEC_PROLOG, CS_REEXEC_PYBODY, CS_REEXEC_EPILOG or CS_REEXEC_PYOSUB before returning, which 
+  // CS_REEXEC_PROLOG, CS_REEXEC_PYBODY, CS_REEXEC_EPILOG or CS_REEXEC_PYOSUB before returning, which
   // also indicates the point which handler needs to be restarted
-  // 
-  // We use the following conditions to 'skip reading the next block and stay on the same block' 
+  //
+  // We use the following conditions to 'skip reading the next block and stay on the same block'
   // until done as follows:
-  // 
+  //
   // 1. block.o_type = O_call and
   //    block.call_type in {CT_PYTHON_OWORD_SUB, CT_REMAP} and
   //    _setup.call_state > CS_NORMAL
-  // 
+  //
   // 2. block.o_type in {O_endsub, O_return} and
   //    block.call_type in {CT_PYTHON_OWORD_SUB, CT_REMAP} and
   //    _setup.call_state > CS_NORMAL
-  // 
+  //
   // handlers eventually return INTERP_OK, which sets _setup.call_state to CS_NORMAL. Then
   // normal readahead continues.
   // A call frame is tagged with the eblock->call_type since this potentially needs to persist across
   // several blocks. Inside the execute_call()/execute_return() logic we use the frame call type
   // to decide what to do.
   // The handler reexec code will call read_inputs() just before continuation.
-   
+
   block_pointer eblock = &EXECUTING_BLOCK(_setup);
 
-  if ((_setup.call_state > CS_NORMAL) && 
+  if ((_setup.call_state > CS_NORMAL) &&
       (eblock->call_type != CT_NGC_OWORD_SUB)  &&
       (eblock->call_type != CT_NGC_M98_SUB)  &&
       (eblock->call_type != CT_NONE)  &&
@@ -1646,11 +1651,11 @@ int Interp::_read(const char *command)  //!< may be NULL or a string to read
 
     else // Blank line (zero length)
     {
-          /* RUM - this case reached when the block delete '/' character 
+          /* RUM - this case reached when the block delete '/' character
              is used, or READ_FULL_COMMENT is false and a comment is the
-             only content of a line. 
-             If a block o-type is in effect, block->o_number needs to be 
-             incremented to allow o-extensions to work. 
+             only content of a line.
+             If a block o-type is in effect, block->o_number needs to be
+             incremented to allow o-extensions to work.
              Note that the the block is 'refreshed' by init_block(),
              not created new, so this is a legal operation on block1. */
 
@@ -1670,7 +1675,7 @@ int Interp::_read(const char *command)  //!< may be NULL or a string to read
   return read_status;
 }
 
-int Interp::read(const char *command) 
+int Interp::read(const char *command)
 {
     int status;
     if ((status = _read(command)) > INTERP_MIN_ERROR) {
@@ -1722,7 +1727,7 @@ int Interp::unwind_call(int status, const char *file, int line, const char *func
 		_setup.sequence_number,_setup.call_level);
     }
     // call_level == 0 here.
- 
+
     if(_setup.sub_name) {
 	logDebug("unwind_call: exiting current sub '%s'\n", _setup.sub_name);
 	_setup.sub_name = 0;
@@ -1786,10 +1791,10 @@ int Interp::reset()
     _setup.linetext[0] = 0;
     _setup.blocktext[0] = 0;
     _setup.line_length = 0;
-    
+
     // drop any queued points in canon
     ON_RESET();
-    
+
     unwind_call(INTERP_OK, __FILE__,__LINE__,__FUNCTION__);
     return INTERP_OK;
 }
@@ -1829,7 +1834,7 @@ sets of origin offsets. Any parameter not given a value in the file
 has its value set to zero.
 
 */
-int Interp::restore_parameters(const char *filename)   //!< name of parameter file to read  
+int Interp::restore_parameters(const char *filename)   //!< name of parameter file to read
 {
   FILE *infile;
   char line[256];
@@ -1922,7 +1927,7 @@ complain, but does write it in the output file.
 
 */
 int Interp::save_parameters(const char *filename,      //!< name of file to write
-                             const double parameters[]) //!< parameters to save   
+                             const double parameters[]) //!< parameters to save
 {
   FILE *infile;
   FILE *outfile;
@@ -2192,7 +2197,7 @@ max_size.
 */
 
 char * Interp::error_text(int error_code,        //!< code number of error
-                         char *error_text,      //!< char array to copy error text into  
+                         char *error_text,      //!< char array to copy error text into
                          size_t max_size)  //!< maximum number of characters to copy
 {
     if(error_code == INTERP_ERROR)
@@ -2597,7 +2602,7 @@ FILE *Interp::find_ngc_file(setup_pointer settings,const char *basename, char *f
 	    if (chk < sizeof(newFileName)) newFP = fopen(newFileName, "r");
 	}
     }
-    if (foundhere && (newFP != NULL)) 
+    if (foundhere && (newFP != NULL))
 	strcpy(foundhere, newFileName);
     return newFP;
 }
