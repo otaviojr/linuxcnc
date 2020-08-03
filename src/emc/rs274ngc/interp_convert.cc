@@ -3264,6 +3264,7 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
  } else if ((block->m_modes[7] == 5) && ONCE_M(7)){
     bool remapped_in_block = STEP_REMAPPED_IN_BLOCK(block, STEP_M_7);
     if (remapped_in_block) {
+        printf("mapping\n");
 	      return convert_remapped_code(block, settings, STEP_M_7,'m',
 					   block->m_modes[7]);
     } else {
