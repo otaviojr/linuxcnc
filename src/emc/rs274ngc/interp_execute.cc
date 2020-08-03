@@ -6,7 +6,7 @@
 * Author:
 * License: GPL Version 2
 * System: Linux
-*    
+*
 * Copyright (c) 2004 All rights reserved.
 *
 * Last change:
@@ -78,9 +78,9 @@ This executes the operations: DIVIDED_BY, MODULO, POWER, TIMES.
 
 */
 
-int Interp::execute_binary1(double *left,        //!< pointer to the left operand    
-                           int operation,       //!< integer code for the operation 
-                           double *right)       //!< pointer to the right operand   
+int Interp::execute_binary1(double *left,        //!< pointer to the left operand
+                           int operation,       //!< integer code for the operation
+                           double *right)       //!< pointer to the right operand
 {
   switch (operation) {
   case DIVIDED_BY:
@@ -131,9 +131,9 @@ false.
 
 */
 
-int Interp::execute_binary2(double *left,        //!< pointer to the left operand    
-                           int operation,       //!< integer code for the operation 
-                           double *right)       //!< pointer to the right operand   
+int Interp::execute_binary2(double *left,        //!< pointer to the left operand
+                           int operation,       //!< integer code for the operation
+                           double *right)       //!< pointer to the right operand
 {
   double diff;
   switch (operation) {
@@ -200,7 +200,7 @@ Returned Value: int
      convert_speed
      convert_stop
      convert_tool_select
-   Otherwise, if the probe_flag in the settings is true, 
+   Otherwise, if the probe_flag in the settings is true,
    or the input_flag is set to true this returns
       INTERP_EXECUTE_FINISH.
    Otherwise, it returns INTERP_OK.
@@ -302,20 +302,36 @@ int Interp::execute_block(block_pointer block,   //!< pointer to a block of RS27
   }
   CHP(convert_m(block, settings));
   CHP(convert_g(block, settings));
+
   /* convert m0, m1, m2, m30, m60, or (when main program loops disabled) m99 */
   if ((block->m_modes[4] != -1) && ONCE(STEP_MGROUP4)) {
       if (STEP_REMAPPED_IN_BLOCK(block, STEP_MGROUP4)) {
-	  status = convert_remapped_code(block,settings,STEP_MGROUP4,'M',block->m_modes[4]);
+	       status = convert_remapped_code(block,settings,STEP_MGROUP4,'M',block->m_modes[4]);
       } else {
-	  status = convert_stop(block, settings);
+	       status = convert_stop(block, settings);
       }
-    if (status == INTERP_EXIT) {
-	return(INTERP_EXIT);
-    }
-    else if (status != INTERP_OK) {
-	ERP(status);
-    }
+      if (status == INTERP_EXIT) {
+	       return(INTERP_EXIT);
+      }
+      else if (status != INTERP_OK) {
+	       ERP(status);
+      }
   }
+
+  if ((block->m_modes[7] != -1) && ONCE(STEP_MGROUP7)) {
+      if (STEP_REMAPPED_IN_BLOCK(block, STEP_MGROUP7)) {
+	       status = convert_remapped_code(block,settings,STEP_MGROUP7,'M',block->m_modes[7]);
+      } else {
+	       status = convert_stop(block, settings);
+      }
+      if (status == INTERP_EXIT) {
+	       return(INTERP_EXIT);
+      }
+      else if (status != INTERP_OK) {
+	       ERP(status);
+      }
+  }
+
   if (settings->probe_flag)
       return (INTERP_EXECUTE_FINISH);
 
@@ -360,8 +376,8 @@ All angle measures in the input or output are in degrees.
 
 */
 
-int Interp::execute_unary(double *double_ptr,    //!< pointer to the operand         
-                         int operation) //!< integer code for the operation 
+int Interp::execute_unary(double *double_ptr,    //!< pointer to the operand
+                         int operation) //!< integer code for the operation
 {
   switch (operation) {
   case ABS:
@@ -419,4 +435,3 @@ int Interp::execute_unary(double *double_ptr,    //!< pointer to the operand
   }
   return INTERP_OK;
 }
-
