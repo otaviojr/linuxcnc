@@ -618,9 +618,11 @@ int read_inputs(setup_pointer settings);
 
     // range for user-remapped G-codes
 #define G_REMAPPABLE(g)	 \
-    ((g > 0) && \
+    (((g > 0) && \
      (g < 1000) && \
-     !G_BUILTIN(g))
+     !G_BUILTIN(g)) || \
+     (g == 0 ) || \
+     (g == 1 ))
 
 #define IS_USER_GCODE(x) (G_REMAPPABLE(x) && _setup.g_remapped[x])
 
