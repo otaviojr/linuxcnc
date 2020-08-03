@@ -317,7 +317,22 @@ int Interp::execute_block(block_pointer block,   //!< pointer to a block of RS27
 	       ERP(status);
       }
   }
-  
+
+  /* convert m0, m1, m2, m30, m60, or (when main program loops disabled) m99 */
+  if ((block->m_modes[7] != -1) && ONCE(STEP_M_7)) {
+      if (STEP_REMAPPED_IN_BLOCK(block, STEP_M_7)) {
+	       status = convert_remapped_code(block,settings,STEP_M_7,'M',block->m_modes[7]);
+      } else {
+	       status = convert_stop(block, settings);
+      }
+      if (status == INTERP_EXIT) {
+	       return(INTERP_EXIT);
+      }
+      else if (status != INTERP_OK) {
+	       ERP(status);
+      }
+  }
+
   if (settings->probe_flag)
       return (INTERP_EXECUTE_FINISH);
 
