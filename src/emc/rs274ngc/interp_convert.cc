@@ -3335,9 +3335,9 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
     }
   }
 
- if (IS_USER_MCODE(block,settings,7) ||
+ if ((IS_USER_MCODE(block,settings,7) ||
     block->m_modes[7] == 3 ||
-    block->m_modes[7] == 5) && ONCE_M(7) {
+    block->m_modes[7] == 5) && ONCE_M(7)) {
     return convert_remapped_code(block, settings, STEP_M_7, 'm',
 				   block->m_modes[7]);
  } else if ((block->m_modes[7] == 3)  && ONCE_M(7)) {
