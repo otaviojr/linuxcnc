@@ -715,8 +715,14 @@ int Interp::find_remappings(block_pointer block, setup_pointer settings)
     // User-defined motion codes (G0 to G3, G33, G73, G76, G80 to G89)
     // as modified (possibly) by G53.
     int mode = block->g_modes[GM_MOTION];
-    if ((mode != -1) && IS_USER_GCODE(mode))
-	    block->remappings.insert(STEP_MOTION);
+    if ((mode != -1) && IS_USER_GCODE(mode)){
+      if (remap_in_progress("G0") ||
+    	    remap_in_progress("G1"))  { // detect recursion case
+    	    CONTROLLING_BLOCK(*settings).builtin_used = true;
+      } else {
+        block->remappings.insert(STEP_MOTION);
+      }
+    }
 
     // this makes it possible to call remapped codes like cycles:
     // G84.2 x1 y2
