@@ -2345,15 +2345,8 @@ int Interp::convert_g(block_pointer block,       //!< pointer to a block of RS27
       status = convert_g92_is_applied(block->g_modes[GM_G92_IS_APPLIED], block, settings);
     }
     if ((block->motion_to_be != -1)  && ONCE(STEP_MOTION)){
-      bool remapped_in_block = STEP_REMAPPED_IN_BLOCK(block, STEP_MOTION);
-      if(remapped_in_block){
-        status = convert_remapped_code(block, settings, STEP_MOTION, 'g',
-  				   block->motion_to_be);
-        CHP(status);
-      } else {
-        status = convert_motion(block->motion_to_be, block, settings);
-        CHP(status);
-      }
+      status = convert_motion(block->motion_to_be, block, settings);
+      CHP(status);
   }
   return INTERP_OK;
 }
@@ -3746,7 +3739,11 @@ int Interp::convert_motion(int motion,   //!< g_code for a line, arc, canned cyc
     else if (ci) {anum = 5; jnum = settings->c_indexer_jnum;}
     CHP(convert_straight_indexer(anum, jnum, block, settings));
   } else if ((motion == G_0) || (motion == G_1) || (motion == G_33) || (motion == G_33_1) || (motion == G_76)) {
-    CHP(convert_straight(motion, block, settings));
+    if(STEP_REMAPPED_IN_BLOCK(block, STEP_MOTION)){
+      CHP(convert_remapped_code(block, settings, STEP_MOTION, 'g', motion));
+    } else {
+      CHP(convert_straight(motion, block, settings));      
+    }
   } else if ((motion == G_3) || (motion == G_2)) {
     CHP(convert_arc(motion, block, settings));
   } else if (motion == G_38_2 || motion == G_38_3 ||
