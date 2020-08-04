@@ -3335,7 +3335,7 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
     }
   }
 
-  printf("MCODE");
+  printf("mapping: %i\n", block->m_modes[7]);
 
  if (IS_USER_MCODE(block,settings,7) && ONCE_M(7)) {
     return convert_remapped_code(block, settings, STEP_M_7, 'm',
@@ -3375,14 +3375,14 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
          settings->spindle_turning[0] = CANON_COUNTERCLOCKWISE;
      }
  } else if ((block->m_modes[7] == 5) && ONCE_M(7)){
+    printf("mapping\n");
     bool remapped_in_block = STEP_REMAPPED_IN_BLOCK(block, STEP_M_7);
     if (remapped_in_block) {
-        printf("mapping\n");
 	      return convert_remapped_code(block, settings, STEP_M_7,'m',
 					   block->m_modes[7]);
     } else {
-      CONTROLLING_BLOCK(*settings).builtin_used = !remapped_in_block;
       printf("So far soo good\n");
+      CONTROLLING_BLOCK(*settings).builtin_used = !remapped_in_block;
       if (block->dollar_flag){
           CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < -1),
               (_("Spindle ($) number out of range in M5 Command\nnum_spindles =%i. $=%d\n")),settings->num_spindles,(int)block->dollar_number);
