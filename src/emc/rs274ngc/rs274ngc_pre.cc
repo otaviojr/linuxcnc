@@ -735,10 +735,10 @@ int Interp::find_remappings(block_pointer block, setup_pointer settings)
       if (remap_in_progress("G0") ||
     	    remap_in_progress("G1"))  { // detect recursion case
     	    CONTROLLING_BLOCK(*settings).builtin_used = true;
-          printf("Use built-in G%i",mode);
+          printf("Use built-in G%i\n",mode);
       } else {
 	       block->remappings.insert(STEP_MOTION);
-         printf("Use remapped G%i", mode);
+         printf("Use remapped G%i\n", mode);
       }
     }
 
