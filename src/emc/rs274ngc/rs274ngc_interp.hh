@@ -604,6 +604,7 @@ int read_inputs(setup_pointer settings);
      (m == 0) ||					\
      (m == 1) ||					\
      (m == 3) ||					\
+     (m == 4) ||					\
      (m == 5) ||					\
      (m == 60) ||					\
      (m == 62) ||					\

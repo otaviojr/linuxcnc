@@ -692,6 +692,7 @@ int Interp::find_remappings(block_pointer block, setup_pointer settings)
     // User defined M-Codes in group 7
     if (IS_USER_MCODE(block,settings,7)){
       if (remap_in_progress("M3") ||
+          remap_in_progress("M4") ||
           remap_in_progress("M5")) {
             CONTROLLING_BLOCK(*settings).builtin_used = true;
           } else {
