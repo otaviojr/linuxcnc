@@ -3224,116 +3224,151 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
     }
   }
 
- if (IS_USER_MCODE(block,settings,7) && ONCE_M(7)) {
+ if ((block->m_modes[7] != -1)  && ONCE_M(7)){
+    bool remapped_in_block = STEP_REMAPPED_IN_BLOCK(block, STEP_M_7);
+    switch (block->m_modes[6]) {
+      case 3:
+        if (IS_USER_MCODE(block,settings,7) && remapped_in_block) {
+          printf("remapping M3\n");
+          return convert_remapped_code(block, settings, STEP_M_7, 'm',
+      				   block->m_modes[7]);
+        } else {
+          printf("mapping M3\n");
+          if (block->dollar_flag){
+             CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < -1),
+                 (_("Spindle ($) number out of range in M3 Command\nnum_spindles =%i. $=%d\n")),settings->num_spindles,(int)block->dollar_number);
+             if (block->dollar_number == -1){ // all spindles
+                 for (int i = 0; i < settings->num_spindles; i++){
+                     enqueue_START_SPINDLE_CLOCKWISE(i);
+                     settings->spindle_turning[i] = CANON_CLOCKWISE;
+                 }
+             } else { // a specific spindle
+                 enqueue_START_SPINDLE_CLOCKWISE(block->dollar_number);
+                 settings->spindle_turning[(int)block->dollar_number] = CANON_CLOCKWISE;
+             }
+          } else { // the default spindle
+             enqueue_START_SPINDLE_CLOCKWISE(0);
+             settings->spindle_turning[0] = CANON_CLOCKWISE;
+          }
+        }
+        break;
+
+      case 4:
+        if (IS_USER_MCODE(block,settings,7) && remapped_in_block) {
+          printf("remapping M4\n");
+          return convert_remapped_code(block, settings, STEP_M_7, 'm',
+                 block->m_modes[7]);
+        } else {
+          printf("mapping M4\n");
+          if (block->dollar_flag){
+             CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < -1),
+                 (_("Spindle ($) number out of range in M4 Command\nnum_spindles =%i. $=%d\n")),settings->num_spindles,(int)block->dollar_number);
+             if (block->dollar_number == -1){ // all spindles
+                 for (int i = 0; i < settings->num_spindles; i++){
+                      enqueue_START_SPINDLE_COUNTERCLOCKWISE(i);
+                      settings->spindle_turning[i] = CANON_COUNTERCLOCKWISE;
+                  }
+              } else { // a specific spindle
+                 enqueue_START_SPINDLE_COUNTERCLOCKWISE(block->dollar_number);
+                 settings->spindle_turning[(int)block->dollar_number] = CANON_COUNTERCLOCKWISE;
+             }
+          } else { // default spindle
+              enqueue_START_SPINDLE_COUNTERCLOCKWISE(0);
+              settings->spindle_turning[0] = CANON_COUNTERCLOCKWISE;
+          }
+        }
+        break;
+
+      case 5:
+        if (IS_USER_MCODE(block,settings,7) && remapped_in_block) {
+          printf("remapping M5\n");
+          return convert_remapped_code(block, settings, STEP_M_7, 'm',
+                 block->m_modes[7]);
+        } else {
+          printf("mapping M5\n");
+          printf("So far soo good\n");
+          CONTROLLING_BLOCK(*settings).builtin_used = !remapped_in_block;
+          if (block->dollar_flag){
+              CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < -1),
+                  (_("Spindle ($) number out of range in M5 Command\nnum_spindles =%i. $=%d\n")),settings->num_spindles,(int)block->dollar_number);
+              if (block->dollar_number == -1){ // all spindles
+                  for (int i = 0; i < settings->num_spindles; i++){
+                      settings->spindle_turning[i] = CANON_STOPPED;
+                      enqueue_STOP_SPINDLE_TURNING(i);
+                  }
+              } else { // a specific spindle
+                  settings->spindle_turning[block->dollar_number] = CANON_STOPPED;
+                  enqueue_STOP_SPINDLE_TURNING(block->dollar_number);
+              }
+          } else { // the default spindle
+              settings->spindle_turning[0] = CANON_STOPPED;
+              enqueue_STOP_SPINDLE_TURNING(0);
+          }
+        }
+        break;
+
+      case 19:
+        for (int i = 0; i < settings->num_spindles; i++)
+            settings->spindle_turning[i] = CANON_STOPPED;
+        if (block->dollar_flag){
+           CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < 0),
+               (_("Spindle ($) number out of range in M19 Command")));
+        }
+        if (block->r_flag || block->p_flag)
+        enqueue_ORIENT_SPINDLE(block->dollar_flag ? block->dollar_number : 0,
+                               block->r_flag ? (block->r_number + settings->orient_offset) : settings->orient_offset,
+                               block->p_flag ? block->p_number : 0);
+        if (block->q_flag) {
+  	  CHKS((block->q_number <= 0.0),(_("Q word with M19 requires a value > 0")));
+  	  enqueue_WAIT_ORIENT_SPINDLE_COMPLETE(block->dollar_flag ? block->dollar_number : 0,
+  			  	  	  	  	  	  	  	   block->q_number);
+        }
+        break;
+
+      case 70:
+      case 73:
+        // save state in current stack frame. We borrow the o-word call stack
+        // and extend it to hold modes & settings.
+        save_settings(&_setup);
+
+        // flag this frame as containing a valid context
+        _setup.sub_context[_setup.call_level].context_status |= CONTEXT_VALID;
+
+        // mark as auto-restore context
+        if (block->m_modes[7] == 73) {
+   	      if (_setup.call_level == 0) {
+   	        MSG("Warning - M73 at top level: nothing to return to; storing context anyway\n");
+   	      } else {
+   	        _setup.sub_context[_setup.call_level].context_status |= CONTEXT_RESTORE_ON_RETURN;
+   	      }
+        }
+        break;
+      case 71:
+        // M72 - invalidate context at current level
+        _setup.sub_context[_setup.call_level].context_status &= ~CONTEXT_VALID;
+        break;
+      case 72:
+        // restore state from current stack frame.
+        CHKS((!(_setup.sub_context[_setup.call_level].context_status & CONTEXT_VALID)),
+             (_("Cannot restore context from invalid stack frame - missing M70/M73?")));
+        CHP(restore_settings(&_setup, _setup.call_level));
+        break;
+      default:
+    }
+ }
+ /*if (IS_USER_MCODE(block,settings,7) && ONCE_M(7)) {
     printf("remapped\n");
     return convert_remapped_code(block, settings, STEP_M_7, 'm',
 				   block->m_modes[7]);
  } else if ((block->m_modes[7] == 3)  && ONCE_M(7)) {
-     printf("mapping M3\n");
-     if (block->dollar_flag){
-        CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < -1),
-            (_("Spindle ($) number out of range in M3 Command\nnum_spindles =%i. $=%d\n")),settings->num_spindles,(int)block->dollar_number);
-        if (block->dollar_number == -1){ // all spindles
-            for (int i = 0; i < settings->num_spindles; i++){
-                enqueue_START_SPINDLE_CLOCKWISE(i);
-                settings->spindle_turning[i] = CANON_CLOCKWISE;
-            }
-        } else { // a specific spindle
-            enqueue_START_SPINDLE_CLOCKWISE(block->dollar_number);
-            settings->spindle_turning[(int)block->dollar_number] = CANON_CLOCKWISE;
-        }
-     } else { // the default spindle
-        enqueue_START_SPINDLE_CLOCKWISE(0);
-        settings->spindle_turning[0] = CANON_CLOCKWISE;
-     }
  } else if ((block->m_modes[7] == 4) && ONCE_M(7)) {
-     printf("mapping M4\n");
-     if (block->dollar_flag){
-        CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < -1),
-            (_("Spindle ($) number out of range in M4 Command\nnum_spindles =%i. $=%d\n")),settings->num_spindles,(int)block->dollar_number);
-        if (block->dollar_number == -1){ // all spindles
-            for (int i = 0; i < settings->num_spindles; i++){
-                 enqueue_START_SPINDLE_COUNTERCLOCKWISE(i);
-                 settings->spindle_turning[i] = CANON_COUNTERCLOCKWISE;
-             }
-         } else { // a specific spindle
-            enqueue_START_SPINDLE_COUNTERCLOCKWISE(block->dollar_number);
-            settings->spindle_turning[(int)block->dollar_number] = CANON_COUNTERCLOCKWISE;
-        }
-     } else { // default spindle
-         enqueue_START_SPINDLE_COUNTERCLOCKWISE(0);
-         settings->spindle_turning[0] = CANON_COUNTERCLOCKWISE;
-     }
  } else if ((block->m_modes[7] == 5) && ONCE_M(7)){
-    printf("mapping M5\n");
-    bool remapped_in_block = STEP_REMAPPED_IN_BLOCK(block, STEP_M_7);
-    if (remapped_in_block) {
-	      return convert_remapped_code(block, settings, STEP_M_7,'m',
-					   block->m_modes[7]);
-    } else {
-      printf("So far soo good\n");
-      CONTROLLING_BLOCK(*settings).builtin_used = !remapped_in_block;
-      if (block->dollar_flag){
-          CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < -1),
-              (_("Spindle ($) number out of range in M5 Command\nnum_spindles =%i. $=%d\n")),settings->num_spindles,(int)block->dollar_number);
-          if (block->dollar_number == -1){ // all spindles
-              for (int i = 0; i < settings->num_spindles; i++){
-                  settings->spindle_turning[i] = CANON_STOPPED;
-                  enqueue_STOP_SPINDLE_TURNING(i);
-              }
-          } else { // a specific spindle
-              settings->spindle_turning[block->dollar_number] = CANON_STOPPED;
-              enqueue_STOP_SPINDLE_TURNING(block->dollar_number);
-          }
-      } else { // the default spindle
-          settings->spindle_turning[0] = CANON_STOPPED;
-          enqueue_STOP_SPINDLE_TURNING(0);
-      }
-    }
   } else if ((block->m_modes[7] == 19) && ONCE_M(7)) {
-      for (int i = 0; i < settings->num_spindles; i++)
-          settings->spindle_turning[i] = CANON_STOPPED;
-      if (block->dollar_flag){
-         CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < 0),
-             (_("Spindle ($) number out of range in M19 Command")));
-      }
-      if (block->r_flag || block->p_flag)
-      enqueue_ORIENT_SPINDLE(block->dollar_flag ? block->dollar_number : 0,
-                             block->r_flag ? (block->r_number + settings->orient_offset) : settings->orient_offset,
-                             block->p_flag ? block->p_number : 0);
-      if (block->q_flag) {
-	  CHKS((block->q_number <= 0.0),(_("Q word with M19 requires a value > 0")));
-	  enqueue_WAIT_ORIENT_SPINDLE_COMPLETE(block->dollar_flag ? block->dollar_number : 0,
-			  	  	  	  	  	  	  	   block->q_number);
-      }
   } else if ((block->m_modes[7] == 70) || (block->m_modes[7] == 73)) {
-
-     // save state in current stack frame. We borrow the o-word call stack
-     // and extend it to hold modes & settings.
-     save_settings(&_setup);
-
-     // flag this frame as containing a valid context
-     _setup.sub_context[_setup.call_level].context_status |= CONTEXT_VALID;
-
-     // mark as auto-restore context
-     if (block->m_modes[7] == 73) {
-	 if (_setup.call_level == 0) {
-	     MSG("Warning - M73 at top level: nothing to return to; storing context anyway\n");
-	 } else {
-	     _setup.sub_context[_setup.call_level].context_status |= CONTEXT_RESTORE_ON_RETURN;
-	 }
-     }
  } else if ((block->m_modes[7] == 71) && ONCE_M(7))  {
-      // M72 - invalidate context at current level
-      _setup.sub_context[_setup.call_level].context_status &= ~CONTEXT_VALID;
 
  } else if ((block->m_modes[7] == 72)  && ONCE_M(7)) {
-
-      // restore state from current stack frame.
-      CHKS((!(_setup.sub_context[_setup.call_level].context_status & CONTEXT_VALID)),
-           (_("Cannot restore context from invalid stack frame - missing M70/M73?")));
-      CHP(restore_settings(&_setup, _setup.call_level));
-  }
+ }*/
 
   if (IS_USER_MCODE(block,settings,8) && ONCE_M(8)) {
      return convert_remapped_code(block, settings, STEP_M_8, 'm',
