@@ -3743,6 +3743,7 @@ int Interp::convert_motion(int motion,   //!< g_code for a line, arc, canned cyc
       printf("G%i remapped\n", motion);
       CHP(convert_remapped_code(block, settings, STEP_MOTION, 'g', motion));
     } else {
+      CONTROLLING_BLOCK(*settings).builtin_used = TRUE;
       printf("G%i mapped\n", motion);
       CHP(convert_straight(motion, block, settings));
     }
