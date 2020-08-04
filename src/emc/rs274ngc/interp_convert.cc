@@ -3337,7 +3337,7 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
 
  if ((block->m_modes[7] != -1)  && ONCE_M(7)){
     bool remapped_in_block = STEP_REMAPPED_IN_BLOCK(block, STEP_M_7);
-    switch (block->m_modes[6]) {
+    switch (block->m_modes[7]) {
       case 3:
         if (IS_USER_MCODE(block,settings,7) && remapped_in_block) {
           printf("remapping M3\n");
