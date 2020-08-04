@@ -3628,7 +3628,7 @@ int Interp::convert_motion(int motion,   //!< g_code for a line, arc, canned cyc
       CHP(convert_remapped_code(block, settings, STEP_MOTION, 'g', motion));
     } else {
       CONTROLLING_BLOCK(*settings).builtin_used = true;
-      printf("G%i mapped\n", motion);
+      printf("G%i built-in\n", motion);
       CHP(convert_straight(motion, block, settings));
     }
   } else if ((motion == G_3) || (motion == G_2)) {
