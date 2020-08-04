@@ -716,8 +716,8 @@ int Interp::find_remappings(block_pointer block, setup_pointer settings)
     // as modified (possibly) by G53.
     int mode = block->g_modes[GM_MOTION];
     if ((mode != -1) && IS_USER_GCODE(mode)){
-      if (remap_in_progress("G0") ||
-    	    remap_in_progress("G1"))  { // detect recursion case
+      if ((mode == G_0 && remap_in_progress("G0")) ||
+    	    (mode == G_1 && remap_in_progress("G1")))  { // detect recursion case
     	    CONTROLLING_BLOCK(*settings).builtin_used = true;
           printf("Use built-in G%i\n",mode);
       } else {
@@ -738,8 +738,8 @@ int Interp::find_remappings(block_pointer block, setup_pointer settings)
 
     mode = block->motion_to_be;
     if ((mode != -1) && IS_USER_GCODE(mode)) {
-      if (remap_in_progress("G0") ||
-    	    remap_in_progress("G1"))  { // detect recursion case
+      if ((mode == G_0 && remap_in_progress("G0")) ||
+    	    (mode == G_1 && remap_in_progress("G1")))  { // detect recursion case
     	    CONTROLLING_BLOCK(*settings).builtin_used = true;
           printf("Use built-in G%i\n",mode);
       } else {
