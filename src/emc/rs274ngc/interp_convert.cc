@@ -2363,8 +2363,15 @@ int Interp::convert_g(block_pointer block,       //!< pointer to a block of RS27
       CHP(status);
   }
     if ((block->motion_to_be != -1)  && ONCE(STEP_MOTION)){
-      status = convert_motion(block->motion_to_be, block, settings);
-      CHP(status);
+      bool remapped_in_block = STEP_REMAPPED_IN_BLOCK(block, STEP_MOTION);
+      if(remapped_in_block){
+        status = convert_remapped_code(block, settings, STEP_MOTION, 'g',
+  				   block->motion_to_be);
+        CHP(status);
+      } else {
+        status = convert_motion(block->motion_to_be, block, settings);
+        CHP(status);
+      }
   }
   return INTERP_OK;
 }
@@ -3354,7 +3361,7 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
              (_("Cannot restore context from invalid stack frame - missing M70/M73?")));
         CHP(restore_settings(&_setup, _setup.call_level));
         break;
-        
+
       default:
         break;
     }
