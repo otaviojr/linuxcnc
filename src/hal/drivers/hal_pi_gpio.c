@@ -275,7 +275,7 @@ int rtapi_app_main(void)
 			"HAL_PI_GPIO: ERROR: board revision %d not supported\n", rev);
 	return -EINVAL;
     }
-    port_data = hal_malloc(npins * sizeof(void *));
+    port_data = hal_malloc(npins* 2 * sizeof(void *));
     if (port_data == 0) {
 	rtapi_print_msg(RTAPI_MSG_ERR,
 	    "HAL_PI_GPIO: ERROR: hal_malloc() failed\n");
@@ -319,17 +319,17 @@ int rtapi_app_main(void)
 	return -1;
     }
 
-    for (n = 0; n < npins; n++) {
-      if (exclude_map & RTAPI_BIT(n))
+    for (n = 0; n < npins*2; n+=2) {
+      if (exclude_map & RTAPI_BIT(n/2))
 	     continue;
-      pinno = pins[n];
-      if (dir_map & RTAPI_BIT(n)) {
-	       bcm2835_gpio_fsel(gpios[n], BCM2835_GPIO_FSEL_OUTP);
+      pinno = pins[n/2];
+      if (dir_map & RTAPI_BIT(n/2)) {
+	       bcm2835_gpio_fsel(gpios[n/2], BCM2835_GPIO_FSEL_OUTP);
 	       if ((retval = hal_pin_bit_newf(HAL_IN, &port_data[n],
 				   comp_id, "hal_pi_gpio.pin-%02d-out", pinno)) < 0)
 	         break;
 
-         if ((retval = hal_pin_bit_newf(HAL_IN, &port_data[n],
+         if ((retval = hal_pin_bit_newf(HAL_IN, &port_data[n+1],
 				   comp_id, "hal_pi_gpio.pin-%02d-out-not", pinno)) < 0)
 	         break;
       } else {
@@ -338,7 +338,7 @@ int rtapi_app_main(void)
 				   comp_id, "hal_pi_gpio.pin-%02d-in", pinno)) < 0)
 	         break;
 
-         if ((retval = hal_pin_bit_newf(HAL_OUT, &port_data[n],
+         if ((retval = hal_pin_bit_newf(HAL_OUT, &port_data[n+1],
 				   comp_id, "hal_pi_gpio.pin-%02d-in-not", pinno)) < 0)
 	         break;
        }
@@ -387,14 +387,14 @@ static void write_port(void *arg, long period)
 {
   int n;
 
-  for (n = 0; n < npins; n++) {
-    if (exclude_map & RTAPI_BIT(n))
+  for (n = 0; n < npins*2; n+=2) {
+    if (exclude_map & RTAPI_BIT(n/2))
       continue;
-    if (dir_map & RTAPI_BIT(n)) {
+    if (dir_map & RTAPI_BIT(n/2)) {
       if (*(port_data[n])) {
-	bcm2835_gpio_set(gpios[n]);
+	       bcm2835_gpio_set(gpios[n/2]);
       } else {
-	bcm2835_gpio_clr(gpios[n]);
+	       bcm2835_gpio_clr(gpios[n/2]);
       }
     }
   }
@@ -404,8 +404,9 @@ static void read_port(void *arg, long period)
 {
   int n;
 
-  for (n = 0; n < npins; n++) {
-    if ((~dir_map & RTAPI_BIT(n)) && (~exclude_map & RTAPI_BIT(n)))
-      *port_data[n] = bcm2835_gpio_lev(gpios[n]);
+  for (n = 0; n < npins*2; n+=2) {
+    if ((~dir_map & RTAPI_BIT(n/2)) && (~exclude_map & RTAPI_BIT(n/2)))
+      *port_data[n] = bcm2835_gpio_lev(gpios[n/2]);
+      *port_data[n+1] = !*port_data[n];
   }
 }
