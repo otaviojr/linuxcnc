@@ -407,6 +407,6 @@ static void read_port(void *arg, long period)
   for (n = 0; n < npins*2; n+=2) {
     if ((~dir_map & RTAPI_BIT(n/2)) && (~exclude_map & RTAPI_BIT(n/2)))
       *port_data[n] = bcm2835_gpio_lev(gpios[n/2]);
-      *port_data[n+1] = !*port_data[n];
+      *port_data[n+1] = !bcm2835_gpio_lev(gpios[n/2]);
   }
 }
