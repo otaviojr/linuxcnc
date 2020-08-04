@@ -321,19 +321,27 @@ int rtapi_app_main(void)
 
     for (n = 0; n < npins; n++) {
       if (exclude_map & RTAPI_BIT(n))
-	continue;
+	     continue;
       pinno = pins[n];
       if (dir_map & RTAPI_BIT(n)) {
-	bcm2835_gpio_fsel(gpios[n], BCM2835_GPIO_FSEL_OUTP);
-	if ((retval = hal_pin_bit_newf(HAL_IN, &port_data[n],
-				       comp_id, "hal_pi_gpio.pin-%02d-out", pinno)) < 0)
-	  break;
+	       bcm2835_gpio_fsel(gpios[n], BCM2835_GPIO_FSEL_OUTP);
+	       if ((retval = hal_pin_bit_newf(HAL_IN, &port_data[n],
+				   comp_id, "hal_pi_gpio.pin-%02d-out", pinno)) < 0)
+	         break;
+
+         if ((retval = hal_pin_bit_newf(HAL_IN, &port_data[n],
+				   comp_id, "hal_pi_gpio.pin-%02d-out-not", pinno)) < 0)
+	         break;
       } else {
-	bcm2835_gpio_fsel(gpios[n], BCM2835_GPIO_FSEL_INPT);
-	if ((retval = hal_pin_bit_newf(HAL_OUT, &port_data[n],
-				       comp_id, "hal_pi_gpio.pin-%02d-in", pinno)) < 0)
-	  break;
-      }
+	       bcm2835_gpio_fsel(gpios[n], BCM2835_GPIO_FSEL_INPT);
+	       if ((retval = hal_pin_bit_newf(HAL_OUT, &port_data[n],
+				   comp_id, "hal_pi_gpio.pin-%02d-in", pinno)) < 0)
+	         break;
+
+         if ((retval = hal_pin_bit_newf(HAL_OUT, &port_data[n],
+				   comp_id, "hal_pi_gpio.pin-%02d-in-not", pinno)) < 0)
+	         break;
+       }
     }
     if (retval < 0) {
       rtapi_print_msg(RTAPI_MSG_ERR,
