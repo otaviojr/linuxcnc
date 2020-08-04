@@ -3310,18 +3310,19 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
       case 19:
         for (int i = 0; i < settings->num_spindles; i++)
             settings->spindle_turning[i] = CANON_STOPPED;
+
         if (block->dollar_flag){
            CHKS((block->dollar_number >= settings->num_spindles || block->dollar_number < 0),
                (_("Spindle ($) number out of range in M19 Command")));
         }
         if (block->r_flag || block->p_flag)
-        enqueue_ORIENT_SPINDLE(block->dollar_flag ? block->dollar_number : 0,
-                               block->r_flag ? (block->r_number + settings->orient_offset) : settings->orient_offset,
-                               block->p_flag ? block->p_number : 0);
+          enqueue_ORIENT_SPINDLE(block->dollar_flag ? block->dollar_number : 0,
+                                 block->r_flag ? (block->r_number + settings->orient_offset) : settings->orient_offset,
+                                 block->p_flag ? block->p_number : 0);
         if (block->q_flag) {
-  	  CHKS((block->q_number <= 0.0),(_("Q word with M19 requires a value > 0")));
-  	  enqueue_WAIT_ORIENT_SPINDLE_COMPLETE(block->dollar_flag ? block->dollar_number : 0,
-  			  	  	  	  	  	  	  	   block->q_number);
+      	  CHKS((block->q_number <= 0.0),(_("Q word with M19 requires a value > 0")));
+      	  enqueue_WAIT_ORIENT_SPINDLE_COMPLETE(block->dollar_flag ? block->dollar_number : 0,
+      			  	  	  	  	  	  	  	   block->q_number);
         }
         break;
 
@@ -3353,7 +3354,9 @@ int Interp::convert_m(block_pointer block,       //!< pointer to a block of RS27
              (_("Cannot restore context from invalid stack frame - missing M70/M73?")));
         CHP(restore_settings(&_setup, _setup.call_level));
         break;
+        
       default:
+        break;
     }
  }
  /*if (IS_USER_MCODE(block,settings,7) && ONCE_M(7)) {
