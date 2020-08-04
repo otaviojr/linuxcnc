@@ -3623,10 +3623,12 @@ int Interp::convert_motion(int motion,   //!< g_code for a line, arc, canned cyc
     else if (ci) {anum = 5; jnum = settings->c_indexer_jnum;}
     CHP(convert_straight_indexer(anum, jnum, block, settings));
   } else if ((motion == G_0) || (motion == G_1) || (motion == G_33) || (motion == G_33_1) || (motion == G_76)) {
-    if(STEP_REMAPPED_IN_BLOCK(block, STEP_MOTION)){
+    if(IS_USER_GCODE(motion) && STEP_REMAPPED_IN_BLOCK(block, STEP_MOTION)){
+      printf("G%i remapped\n", motion);
       CHP(convert_remapped_code(block, settings, STEP_MOTION, 'g', motion));
     } else {
-      CHP(convert_straight(motion, block, settings));      
+      printf("G%i mapped\n", motion);
+      CHP(convert_straight(motion, block, settings));
     }
   } else if ((motion == G_3) || (motion == G_2)) {
     CHP(convert_arc(motion, block, settings));
