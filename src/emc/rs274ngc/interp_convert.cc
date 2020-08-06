@@ -1559,18 +1559,10 @@ already in force.
 
 */
 
-<<<<<<< HEAD
 int Interp::convert_control_mode(int g_code,     //!< g_code being executed (G_61, G61_1, || G_64)
 				double tolerance,    //tolerance for the path following in G64
 				double naivecam_tolerance,    //tolerance for the naivecam
-                                setup_pointer settings) //!< pointer to machine settings                 
-=======
-int Interp::convert_control_mode(
-    int g_code,                   // g_code being executed (G_61, G61_1, G_64)
-    double tolerance_in,          // tolerance for the path following in G64
-    double naivecam_tolerance_in, // tolerance for the naivecam
-    setup_pointer settings)       // pointer to machine settings
->>>>>>> 5a657b1bb... remapping m5
+                                setup_pointer settings) //!< pointer to machine settings
 {
   CHKS((settings->cutter_comp_side),
        (_("Cannot change control mode with cutter radius compensation on")));
@@ -1581,7 +1573,6 @@ int Interp::convert_control_mode(
     SET_MOTION_CONTROL_MODE(CANON_EXACT_STOP, 0);
     settings->control_mode = CANON_EXACT_STOP;
   } else if (g_code == G_64) {
-<<<<<<< HEAD
 	if (tolerance >= 0) {
 	    SET_MOTION_CONTROL_MODE(CANON_CONTINUOUS, tolerance);
 	} else {
@@ -1595,28 +1586,7 @@ int Interp::convert_control_mode(
 	    SET_NAIVECAM_TOLERANCE(0);
 	}
     settings->control_mode = CANON_CONTINUOUS;
-  } else 
-=======
-      if (tolerance_in >= 0)
-	  tolerance = tolerance_in;
-      else
-	  tolerance = 0;
-      settings->control_mode = CANON_CONTINUOUS;
-      settings->tolerance = tolerance;
-      SET_MOTION_CONTROL_MODE(CANON_CONTINUOUS, tolerance);
-
-      if (naivecam_tolerance_in >= 0)
-	  naivecam_tolerance = naivecam_tolerance_in;
-      else if (tolerance_in >= 0)
-	  // if no naivecam_tolerance specified use same for both
-	  naivecam_tolerance = tolerance_in;
-      else
-	  naivecam_tolerance = 0;
-      settings->naivecam_tolerance = naivecam_tolerance;
-      SET_NAIVECAM_TOLERANCE(naivecam_tolerance);
-
   } else
->>>>>>> 5a657b1bb... remapping m5
     ERS(NCE_BUG_CODE_NOT_G61_G61_1_OR_G64);
   return INTERP_OK;
 }
@@ -2860,9 +2830,6 @@ int Interp::gen_m_codes(int *current, int *saved, std::string &cmd)
     return INTERP_OK;
 }
 
-<<<<<<< HEAD
-=======
-
 /**
  * Create a G code string to restore a modal state on program abort.
  * Note: This is only designed to be called on program abort. It restores the
@@ -2917,7 +2884,6 @@ int Interp::gen_restore_cmd(int *current_g,
 }
 
 
->>>>>>> 5a657b1bb... remapping m5
 int Interp::save_settings(setup_pointer settings)
 {
       // the state is sprinkled all over _setup
@@ -5598,5 +5564,3 @@ int Interp::convert_tool_select(block_pointer block,     //!< pointer to a block
   settings->selected_tool = block->t_number;
   return INTERP_OK;
 }
-
-
