@@ -192,7 +192,69 @@ static char *hm2_7c81_pin_names[] = {
 	"P6-RX1"
 };
 
- 
+static char *hm2_d001_pin_names[] = {
+	"P1-01/DB25-01",
+	"P1-02/DB25-14",
+	"P1-03/DB25-02",
+	"P1-04/DB25-15",
+	"P1-05/DB25-03",
+	"P1-06/DB25-16",
+	"P1-07/DB25-04",
+	"P1-08/DB25-17",
+	"P1-09/DB25-05",
+	"P1-11/DB25-06",
+	"P1-13/DB25-07",
+	"P1-15/DB25-08",
+	"P1-17/DB25-09",
+	"P1-19/DB25-10",
+	"P1-21/DB25-11",
+	"P1-23/DB25-12",
+	"P1-25/DB25-13",
+	"J5-TX0",
+	"J6-TX1",
+	"P2-01/DB25-01",
+	"P2-02/DB25-14",
+	"P2-03/DB25-02",
+	"P2-04/DB25-15",
+	"P2-05/DB25-03",
+	"P2-06/DB25-16",
+	"P2-07/DB25-04",
+	"P2-08/DB25-17",
+	"P2-09/DB25-05",
+	"P2-11/DB25-06",
+
+	"P2-13/DB25-07",
+	"P2-15/DB25-08",
+	"P2-17/DB25-09",
+	"P2-19/DB25-10",
+	"P2-21/DB25-11",
+	"P2-23/DB25-12",
+	"P2-25/DB25-13",
+	"J5-TXEN0",
+	"J6-TXEN1",
+	"P7-01/DB25-01",
+	"P7-02/DB25-14",
+	"P7-03/DB25-02",
+	"P7-04/DB25-15",
+	"P7-05/DB25-03",
+	"P7-06/DB25-16",
+	"P7-07/DB25-04",
+	"P7-08/DB25-17",
+	"P7-09/DB25-05",
+	"P7-11/DB25-06",
+	"P7-13/DB25-07",
+	"P7-15/DB25-08",
+	"P7-17/DB25-09",
+	"P7-19/DB25-10",
+	"P7-21/DB25-11",
+	"P7-23/DB25-12",
+	"P7-25/DB25-13",
+	"P5-RX0",
+	"P6-RX1",
+	"P6-RX2"
+};
+
+
 static uint32_t read_command(uint16_t addr, unsigned nelem) {
     bool increment = true;
     return (addr << 16) | 0xA000 | (increment ? 0x800 : 0) | (nelem << 4);
@@ -444,6 +506,15 @@ static int probe(char *dev, int rate) {
             board->llio.ioport_connector_name[2] = "P7";
             board->llio.io_connector_pin_names = hm2_7c81_pin_names;
             board->llio.num_leds = 4;
+            board->llio.fpga_part_number = "xc6slx9tq144";
+    } else if(!memcmp(ident, "DELTD001", 8)){
+            base = "hm2_D001";
+            board->llio.num_ioport_connectors = 2;
+            board->llio.pins_per_connector = 29;
+            board->llio.ioport_connector_name[0] = "P1";
+            board->llio.ioport_connector_name[1] = "P2";
+            board->llio.io_connector_pin_names = hm2_d001_pin_names;
+            board->llio.num_leds = 7;
             board->llio.fpga_part_number = "xc6slx9tq144";
     } else {
         // peter's been busy
