@@ -103,7 +103,7 @@ Start in HAL mode (Normal mode for real machine use).
 Start in HAL mode + Spindle Override + Feedrate Override + Big step 5/10&#8239;mm).
 
 
-== Hal Usage
+== HAL Usage
 Use the -H option to specify HAL mode and other options as required: +
 `loadusr -W xhc-whb04b-6 -HsfB`
 
@@ -576,7 +576,8 @@ The CRC code function is not disclosed by the manufacturer.
 Thus the CRC value transmitted with each package is not checked yet.
 Feel free to help us enhance the component.
 
-== AUTHORS
+== AUTHOR
+
 This component was started by Raoul Rubien based on predecessor device component xhc-hb04.cc.
 https://github.com/machinekit/machinekit/graphs/contributors gives you a more complete list of contributors.
 
@@ -586,6 +587,10 @@ The development started with the xhc-whb04 (4-axis wireless pendant) implementat
 73 & many thanks to the developers who delivered provided an excellent preparatory work!
 
 == COPYRIGHT
-Copyright (C) 2018 Raoul Rubien (github.com/rubienr) Updated for Linuxcnc 2020 by alkabal_free.fr.
-This is free software; see the source for copying conditions.
-There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Copyright (C) 2018 Raoul Rubien (github.com/rubienr) Updated for
+Linuxcnc 2020 by alkabal_free.fr.
+
+This is free software; see the source for copying conditions. There is
+NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.

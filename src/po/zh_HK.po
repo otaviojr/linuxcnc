@@ -2,20 +2,21 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # hugoalh <hugoalh@users.noreply.hosted.weblate.org>, 2024.
+# Ricky From Hong Kong <lamricky11@hotmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: emc-developers@lists.sourceforge.net\n"
 "POT-Creation-Date: 2024-04-08 19:52+0200\n"
-"PO-Revision-Date: 2024-06-02 02:04+0000\n"
-"Last-Translator: hugoalh <hugoalh@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2024-07-23 05:50+0000\n"
+"Last-Translator: Ricky From Hong Kong <lamricky11@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_HK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: src/emc/task/emctaskmain.cc:868
 #, c-format
@@ -311,9 +312,8 @@ msgid "Cannot convert spline with cutter radius compensation"
 msgstr "無法轉換 樣條曲線 有刀具半徑補償"
 
 #: src/emc/rs274ngc/interp_convert.cc:579
-#, fuzzy
 msgid "Splines may not have motion in A, B, or C"
-msgstr "樣條曲線 無法 有動作 在 Z，A，B  或  C"
+msgstr "樣條曲線無法有動作 在 Z，A，B 或 C"
 
 #: src/emc/rs274ngc/interp_convert.cc:586
 #, fuzzy
@@ -1861,13 +1861,13 @@ msgstr "故障: '%s' 不是有效的探查類型\n"
 #: src/hal/utils/meter.c:213
 #, c-format
 msgid "ERROR: no pin/signal/parameter name\n"
-msgstr "故障: 沒有 針腳/信號/參數  名字\n"
+msgstr "故障：沒有針腳／信號／參數 名字\n"
 
 #: src/hal/utils/meter.c:219
 #, c-format
 msgid ""
 "ERROR: -s option requires a probe type and a pin/signal/parameter name\n"
-msgstr "故障: -s 選項需要一個探頭類型和 針/信號​​/參數 名稱\n"
+msgstr "故障：-s 選項需要一個探頭類型和針／信號／參數名稱\n"
 
 #: src/hal/utils/meter.c:243 tcl/tklinuxcnc.tcl:793
 msgid "Hal Meter"
@@ -1891,7 +1891,7 @@ msgstr " 針(_P) "
 
 #: src/hal/utils/meter.c:617
 msgid " _Signals "
-msgstr " 信號​​(_S) "
+msgstr " 信號（_S） "
 
 #: src/hal/utils/meter.c:618
 msgid " Para_meters "
@@ -2502,9 +2502,8 @@ msgid "Exceeded NEGATIVE soft limit (%.5f) on joint %d\n"
 msgstr "超出 正 軟極限在 Joint %d"
 
 #: src/emc/motion/control.c:1513 src/emc/motion/control.c:1522
-#, fuzzy
 msgid "Joint must be unhomed, jogged into limits, rehomed"
-msgstr "所有 Joint 一定 要在 零點 才能  進入 遠程操作 模式"
+msgstr "所有 Joint 一定要在零點才能進入遠程操作模式"
 
 #: src/emc/motion/control.c:1515 src/emc/motion/control.c:1524
 msgid "Hint: switch to joint mode to jog off soft limit"
@@ -2523,22 +2522,22 @@ msgstr "不能 慢步 無效的 Joint 號碼 %d."
 #: src/emc/motion/command.c:130
 #, c-format
 msgid "Can't jog joint %d further past max hard limit."
-msgstr "不能 慢步 Joint %d  超過 最大 的 硬 極限."
+msgstr "不能慢步 Joint %d 超過最大的硬極限。"
 
 #: src/emc/motion/command.c:135
 #, c-format
 msgid "Can't jog joint %d further past min hard limit."
-msgstr "不能 慢步 Joint %d  超過 最小 的 硬 極限."
+msgstr "不能慢步 Joint %d 超過最小的硬極限。"
 
 #: src/emc/motion/command.c:141
 #, c-format
 msgid "Can't jog joint %d further past max soft limit."
-msgstr "不能 慢步 Joint %d  超過 最大 的 軟 極限"
+msgstr "不能慢步 Joint %d 超過最大的軟極限。"
 
 #: src/emc/motion/command.c:146
 #, c-format
 msgid "Can't jog joint %d further past min soft limit."
-msgstr "不能 慢步 Joint %d  超過 最小 的 軟 極限"
+msgstr "不能慢步 Joint %d 超過最小的軟極限。"
 
 #: src/emc/motion/command.c:216 src/emc/motion/command.c:221
 #, fuzzy, c-format
@@ -2650,7 +2649,7 @@ msgstr "一定 要在 Joint 模式 或 不允許 才 可以 離零"
 
 #: src/emc/motion/command.c:1400
 msgid "need to be enabled, in coord mode for probe move"
-msgstr "需要允許,以坐標模式 移動探頭    "
+msgstr "需要允許，以坐標模式移動探頭"
 
 #: src/emc/motion/command.c:1410
 msgid "can't do probe move with limits exceeded"
@@ -2737,7 +2736,7 @@ msgstr "無法識別的命令 %d"
 
 #: src/emc/motion/motion.c:174
 msgid "all joints must be homed before going into teleop mode"
-msgstr "所有 Joint 一定 要在 零點 才能  進入 遠程操作 模式"
+msgstr "所有 Joint 一定要在零點才能進入遠程操作模式"
 
 #: src/emc/motion/motion.c:271
 msgid "MOTION: hal_init() failed\n"
@@ -3094,9 +3093,8 @@ msgstr ""
 #: src/hal/classicladder/classicladder_gtk.c:632
 #: src/hal/classicladder/classicladder_gtk.c:904
 #: src/hal/classicladder/classicladder_gtk.c:910
-#, fuzzy
 msgid "Warning!"
-msgstr "警告"
+msgstr "警告！"
 
 #: src/hal/classicladder/classicladder_gtk.c:632
 msgid ""
@@ -3177,9 +3175,8 @@ msgid ""
 msgstr ""
 
 #: src/hal/classicladder/classicladder_gtk.c:908
-#, fuzzy
 msgid "Confirm!"
-msgstr "新 確認"
+msgstr "確認！"
 
 #: src/hal/classicladder/classicladder_gtk.c:908
 msgid "Do you really want to quit ?\n"
@@ -3312,7 +3309,7 @@ msgstr "編碼器　的數目:"
 #: src/hal/classicladder/config_gtk.c:143
 #, fuzzy, c-format
 msgid "Number of Timers IEC"
-msgstr "實際伺服週期:                         "
+msgstr "實際伺服週期"
 
 #: src/hal/classicladder/config_gtk.c:147
 #, c-format
@@ -3836,7 +3833,7 @@ msgstr ""
 #: src/hal/classicladder/edit_sequential.c:821
 #, fuzzy
 msgid "There is already an element!"
-msgstr "一個文件已經打開"
+msgstr "已有元素了！"
 
 #: src/hal/classicladder/edit_sequential.c:788
 msgid "A step can't be placed on even lines"
@@ -4988,9 +4985,8 @@ msgid "Pin"
 msgstr "針"
 
 #: tcl/bin/halshow.tcl:265
-#, fuzzy
 msgid "Add signal"
-msgstr " 信號​​(_S) "
+msgstr "新增信號"
 
 #: tcl/bin/halshow.tcl:266
 #, fuzzy
@@ -5098,12 +5094,11 @@ msgstr ""
 #: tcl/bin/halshow.tcl:976
 #, fuzzy
 msgid "Add as Pin(s)"
-msgstr " 信號​​(_S) "
+msgstr "信號"
 
 #: tcl/bin/halshow.tcl:977
-#, fuzzy
 msgid "Add as Signal(s)"
-msgstr " 信號​​(_S) "
+msgstr "新增為信號"
 
 #: tcl/bin/halshow.tcl:978
 msgid "Add as Param(s)"
@@ -6699,9 +6694,8 @@ msgid "poc"
 msgstr ""
 
 #: tcl/tooledit.tcl:456
-#, fuzzy
 msgid "diam"
-msgstr "  直徑"
+msgstr "直徑"
 
 #: tcl/tooledit.tcl:457
 msgid "front"
@@ -7382,11 +7376,11 @@ msgstr "英寸"
 
 #: src/emc/usr_intf/axis/scripts/axis.py:1766
 msgid " radius"
-msgstr "  半徑"
+msgstr "半徑"
 
 #: src/emc/usr_intf/axis/scripts/axis.py:1768
 msgid " diameter"
-msgstr "  直徑"
+msgstr "直徑"
 
 #: src/emc/usr_intf/axis/scripts/axis.py:1769
 msgid "°"
@@ -14482,14 +14476,14 @@ msgstr "%s 軸 調整"
 msgid ""
 " You must designate a ENCODER / RESOLVER signal and an ANALOG SPINDLE signal "
 "for this axis test"
-msgstr "您必須指定  一個 編碼器 信號  和  PWM 信號  給此軸測試"
+msgstr "您必須指定一個編碼器信號和 PWM 信號給此軸測試"
 
 #: src/emc/usr_intf/pncconf/tests.py:923
 #, fuzzy
 msgid ""
 " You must designate a ENCODER / RESOLVER signal and a PWM signal for this "
 "axis test"
-msgstr "您必須指定  一個 編碼器 信號  和  PWM 信號  給此軸測試"
+msgstr "您必須指定一個編碼器信號和 PWM 信號給此軸測試"
 
 #: src/emc/usr_intf/pncconf/tests.py:1212
 msgid ""
@@ -16739,21 +16733,21 @@ msgstr "<b>一　般　GUI　預　設　值</b>"
 #: src/emc/usr_intf/pncconf/screen.glade:718
 #: src/emc/usr_intf/pncconf/screen.glade:3657
 msgid "Default linear velocity "
-msgstr " 線 性  速 度  預 置 值   "
+msgstr "線性速度預置值"
 
 #: src/emc/usr_intf/pncconf/screen.glade:726
 #: src/emc/usr_intf/pncconf/screen.glade:3669
 msgid "Min linear velocity"
-msgstr "最　小　線 性  速 度　"
+msgstr "最小線性速度"
 
 #: src/emc/usr_intf/pncconf/screen.glade:738
 #: src/emc/usr_intf/pncconf/screen.glade:3681
 msgid "Max linear velocity"
-msgstr "最　大　線 性  速 度"
+msgstr "最大線性速度"
 
 #: src/emc/usr_intf/pncconf/screen.glade:812
 msgid "Default Angular velocity "
-msgstr "　角  速 度  預 置 值 　"
+msgstr "角速度預置值"
 
 #: src/emc/usr_intf/pncconf/screen.glade:852
 msgid "gedit"
@@ -16761,7 +16755,7 @@ msgstr ""
 
 #: src/emc/usr_intf/pncconf/screen.glade:867
 msgid "Min Angular velocity"
-msgstr "最　小　角  速 度"
+msgstr "最小角速度"
 
 #: src/emc/usr_intf/pncconf/screen.glade:898
 #: src/emc/usr_intf/pncconf/screen.glade:3744
@@ -16774,7 +16768,7 @@ msgstr ""
 
 #: src/emc/usr_intf/pncconf/screen.glade:926
 msgid "Max Angular velocity"
-msgstr "最　大　角  速 度"
+msgstr "最大角速度"
 
 #: src/emc/usr_intf/pncconf/screen.glade:957
 #: src/emc/usr_intf/pncconf/screen.glade:970
@@ -16890,7 +16884,7 @@ msgstr "樣辦配置"
 
 #: src/emc/usr_intf/pncconf/vcp.glade:26
 msgid "<b>Virtual Control Panel</b>"
-msgstr "<b> 虛 擬   控 制   面 板 </b>"
+msgstr "<b>虛擬控制面板</b>"
 
 #: src/emc/usr_intf/pncconf/vcp.glade:113
 msgid "XYZ buttons (uses Halui)"
@@ -17233,7 +17227,7 @@ msgstr ""
 #: src/emc/usr_intf/pncconf/z_motor.glade:577
 #: src/emc/usr_intf/pncconf/a_motor.glade:553
 msgid "Quad Pulses / Rev:"
-msgstr "四  脈衝 / 轉"
+msgstr "四脈衝／轉："
 
 #: src/emc/usr_intf/pncconf/x_motor.glade:670
 #: src/emc/usr_intf/pncconf/y_motor.glade:670
@@ -18401,9 +18395,8 @@ msgid "There was a problem initializing the notification module"
 msgstr ""
 
 #: src/emc/usr_intf/gscreen/gscreen.py:133
-#, fuzzy
 msgid "Audio alerts are available!"
-msgstr "PCI 搜索頁面 無法使用\n"
+msgstr "可以選擇音效提示！"
 
 #: src/emc/usr_intf/gscreen/gscreen.py:136
 msgid ""
@@ -18755,7 +18748,7 @@ msgstr "開机"
 #: src/emc/usr_intf/gscreen/gscreen.py:2646
 #, fuzzy
 msgid "Machine Estopped!"
-msgstr "機床位置"
+msgstr "機器禁止！"
 
 #: src/emc/usr_intf/gscreen/gscreen.py:2652
 #: lib/python/gladevcp/calculator.glade:33
@@ -19144,9 +19137,8 @@ msgid "G-code"
 msgstr "軸編碼器"
 
 #: src/emc/usr_intf/gscreen/gscreen.glade:1869
-#, fuzzy
 msgid "<b>Active Codes</b>"
-msgstr "激活 G Codes"
+msgstr "<b>有效代碼</b>"
 
 #: src/emc/usr_intf/gscreen/gscreen.glade:1925
 msgid "MV:100%"
@@ -19265,11 +19257,12 @@ msgid ""
 msgstr "顯示英寸(_I)"
 
 #: src/emc/usr_intf/gscreen/gscreen.glade:2577
-#, fuzzy
 msgid ""
 "Diameter\n"
 "Mode"
-msgstr "  直徑"
+msgstr ""
+"直徑\n"
+"模式"
 
 #: src/emc/usr_intf/gscreen/gscreen.glade:2590
 #: src/emc/usr_intf/gscreen/gscreen.glade:3202
@@ -19811,9 +19804,8 @@ msgstr ""
 #: lib/python/gladevcp/tooledit_gtk.glade:227
 #: lib/python/gladevcp/tooledit_gtk.glade:529
 #: lib/python/gladevcp/tooledit_gtk.glade:752
-#, fuzzy
 msgid "Diameter"
-msgstr "  直徑"
+msgstr "直徑"
 
 #: lib/python/gladevcp/tooledit_gtk.glade:242
 #: lib/python/gladevcp/tooledit_gtk.glade:544

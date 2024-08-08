@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: emc-developers@lists.sourceforge.net\n"
 "POT-Creation-Date: 2024-04-08 19:52+0200\n"
-"PO-Revision-Date: 2024-05-23 22:09+0000\n"
+"PO-Revision-Date: 2024-07-19 07:09+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "linuxcnc/linuxcnc/nb_NO/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: src/emc/task/emctaskmain.cc:868
 #, c-format
@@ -1615,71 +1615,73 @@ msgstr "Ukjent m-kode brukt: M%d"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:157
 msgid "Unknown operation"
-msgstr ""
+msgstr "Ukjent operasjon"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:158
 msgid "Unknown operation name starting with a"
-msgstr ""
+msgstr "Ukjent operasjonsnavn som starter med A"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:159
 msgid "Unknown operation name starting with m"
-msgstr ""
+msgstr "Ukjent operasjonsnavn som starter med M"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:160
 msgid "Unknown operation name starting with o"
-msgstr ""
+msgstr "Ukjent operasjonsnavn som starter med O"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:161
 msgid "Unknown operation name starting with x"
-msgstr ""
+msgstr "Ukjent operasjonsnavn som starter med X"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:162
 msgid "Unknown word starting with a"
-msgstr ""
+msgstr "Ukjent ord som starter med A"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:163
 msgid "Unknown word starting with c"
-msgstr ""
+msgstr "Ukjent ord som starter med C"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:164
 msgid "Unknown word starting with e"
-msgstr ""
+msgstr "Ukjent ord som starter med E"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:165
 msgid "Unknown word starting with f"
-msgstr ""
+msgstr "Ukjent ord som starter med F"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:166
 msgid "Unknown word starting with l"
-msgstr ""
+msgstr "Ukjent ord som starter med I"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:167
 msgid "Unknown word starting with r"
-msgstr ""
+msgstr "Ukjent ord som starter med R"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:168
 msgid "Unknown word starting with s"
-msgstr ""
+msgstr "Ukjent ord som starter med S"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:169
 msgid "Unknown word starting with t"
-msgstr ""
+msgstr "Ukjent ord som starter med T"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:170
+#, fuzzy
 msgid "Unknown word where unary operation could be"
-msgstr ""
+msgstr "Ukjent ord der selvstendig operasjon ville vært"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:171
 msgid "X and y words missing for arc in xy plane"
-msgstr ""
+msgstr "Ordene X og Y mangler for buen i XY-planet"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:172
 msgid "X and z words missing for arc in xz plane"
-msgstr ""
+msgstr "Ordene X og Z mangler for bue i XZ-planet"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:173
+#, fuzzy
 msgid "X value unspecified in yz plane canned cycle"
-msgstr ""
+msgstr "Ikke oppgitt X-verdi i YZ-planets arbeidssyklus"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:174
 msgid "Y and z words missing for arc in yz plane"
@@ -1715,15 +1717,15 @@ msgstr ""
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:182
 msgid "Unknown operation name starting with n"
-msgstr ""
+msgstr "Ukjent operasjon som starter med N"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:183
 msgid "Unknown operation name starting with g"
-msgstr ""
+msgstr "Ukjent operasjon som starter med G"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:184
 msgid "Unknown operation name starting with l"
-msgstr ""
+msgstr "Ukjent operasjon som starter med L"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:185
 msgid "Too many subroutine parameters"
@@ -1739,7 +1741,7 @@ msgstr ""
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:188
 msgid "Unknown control command in o word"
-msgstr ""
+msgstr "Ukjent kontrollkommando i O-ord"
 
 #: src/emc/rs274ngc/rs274ngc_return.hh:189
 msgid "Too many oword labels"
@@ -10787,19 +10789,16 @@ msgid "Import a Mach file"
 msgstr "Last inn en Mach-fil"
 
 #: src/emc/usr_intf/stepconf/start.glade:73
-#, fuzzy
 msgid "Create a desktop _shortcut (symlink) to configuration files"
-msgstr "Lag en skrivebordssnarvei (symlink) til oppsettfiler."
+msgstr "Lag en skrivebords_snarvei (symlink) til oppsettfiler"
 
 #: src/emc/usr_intf/stepconf/start.glade:89
-#, fuzzy
 msgid "Create a desktop _launcher to start LinuxCNC with this configuration"
-msgstr "Lag et skrivebordsoppstartskript for LinuxCNC med dette oppsettet."
+msgstr "_Lag et skrivebordsoppstartskript for LinuxCNC med dette oppsettet"
 
 #: src/emc/usr_intf/stepconf/start.glade:105
-#, fuzzy
 msgid "Create simulated hardware configuration"
-msgstr "Lag simulert maskinvareoppsett."
+msgstr "Lag simulert maskinvareoppsett"
 
 #: src/emc/usr_intf/stepconf/start.glade:129
 #: src/emc/usr_intf/pncconf/start.glade:63
@@ -15931,14 +15930,12 @@ msgid "Smart Serial 7"
 msgstr "Smartseriell 0"
 
 #: src/emc/usr_intf/pncconf/start.glade:27
-#, fuzzy
 msgid "Create a desktop launcher to start LinuxCNC with this configuration"
-msgstr "Lag et skrivebordsoppstartskript for LinuxCNC med dette oppsettet."
+msgstr "Lag et skrivebordsoppstartskript for LinuxCNC med dette oppsettet"
 
 #: src/emc/usr_intf/pncconf/start.glade:44
-#, fuzzy
 msgid "Create a desktop shortcut (symlink) to configuration files"
-msgstr "Lag en skrivebordssnarvei (symlink) til oppsettfiler."
+msgstr "Lag en skrivebordssnarvei (symlink) til oppsettfiler"
 
 #: src/emc/usr_intf/pncconf/start.glade:129
 msgid "Show Advanced Option Pages"
@@ -16515,7 +16512,7 @@ msgstr ""
 
 #: src/emc/usr_intf/pncconf/screen.glade:812
 msgid "Default Angular velocity "
-msgstr ""
+msgstr "Forvalgt dreiehastighet "
 
 #: src/emc/usr_intf/pncconf/screen.glade:852
 msgid "gedit"
@@ -16523,7 +16520,7 @@ msgstr "gedit"
 
 #: src/emc/usr_intf/pncconf/screen.glade:867
 msgid "Min Angular velocity"
-msgstr ""
+msgstr "Min. dreiehastighet"
 
 #: src/emc/usr_intf/pncconf/screen.glade:898
 #: src/emc/usr_intf/pncconf/screen.glade:3744
@@ -16536,7 +16533,7 @@ msgstr "5mm 1mm .5mm .1mm .05mm .01mm .005mm"
 
 #: src/emc/usr_intf/pncconf/screen.glade:926
 msgid "Max Angular velocity"
-msgstr ""
+msgstr "Maks dreiehastighet"
 
 #: src/emc/usr_intf/pncconf/screen.glade:957
 #: src/emc/usr_intf/pncconf/screen.glade:970
@@ -16615,27 +16612,27 @@ msgstr "Absolutt tekstfarge"
 
 #: src/emc/usr_intf/pncconf/screen.glade:1960
 msgid "Relative Textcolor"
-msgstr ""
+msgstr "Relativ tekstfarge"
 
 #: src/emc/usr_intf/pncconf/screen.glade:1973
 msgid "DTG Textcolor"
-msgstr ""
+msgstr "DTG-tekstfarge"
 
 #: src/emc/usr_intf/pncconf/screen.glade:1986
 msgid "Error Textcolor"
-msgstr ""
+msgstr "Feil-tekstfarge"
 
 #: src/emc/usr_intf/pncconf/screen.glade:2149
 msgid "Touchy Defaults"
-msgstr ""
+msgstr "Forvalg for Touchy"
 
 #: src/emc/usr_intf/pncconf/screen.glade:2767
 msgid "Force Gmoccapy to Maximize after positioning"
-msgstr ""
+msgstr "Tving Gmoccapy til maksimum etter posisjonering"
 
 #: src/emc/usr_intf/pncconf/screen.glade:3233
 msgid "Gmoccapy Defaults"
-msgstr ""
+msgstr "Gmoccapy-forvalg"
 
 #: src/emc/usr_intf/pncconf/screen.glade:3757
 msgid "10 1 .1 .01 .001"
@@ -16643,7 +16640,7 @@ msgstr "10 1 .1 .01 .001"
 
 #: src/emc/usr_intf/pncconf/screen.glade:3919
 msgid "QtPlasmaC Options"
-msgstr ""
+msgstr "QtPlasmaC-valg"
 
 #: src/emc/usr_intf/pncconf/vcp.glade:26
 msgid "<b>Virtual Control Panel</b>"
@@ -16651,11 +16648,11 @@ msgstr "<b>Virtuelt kontrollpanel</b>"
 
 #: src/emc/usr_intf/pncconf/vcp.glade:113
 msgid "XYZ buttons (uses Halui)"
-msgstr ""
+msgstr "XYZ-taster (bruker Halui)"
 
 #: src/emc/usr_intf/pncconf/vcp.glade:307
 msgid "Geometry Options"
-msgstr ""
+msgstr "Geometrivalg"
 
 #: src/emc/usr_intf/pncconf/vcp.glade:402
 msgid "Pyvcp Details"
@@ -16683,7 +16680,7 @@ msgstr ""
 
 #: src/emc/usr_intf/pncconf/vcp.glade:774
 msgid "Display Options"
-msgstr ""
+msgstr "Fremvisningsvalg"
 
 #: src/emc/usr_intf/pncconf/vcp.glade:831
 msgid "Max RPM"
